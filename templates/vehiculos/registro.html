@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registrar Carga de Combustible{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg p-4 rounded-4">
+    <h3 class="mb-4 fw-bold text-primary">Nueva Carga de Combustible</h3>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Vehículo</label>
+          {{ form.vehiculo }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Fecha</label>
+          {{ form.fecha }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Km Inicial</label>
+          {{ form.km_inicial }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Km Final</label>
+          {{ form.km_final }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Galones Cargados</label>
+          {{ form.galones }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Costo (RD$)</label>
+          {{ form.precio_por_galon }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Archivo GPS</label>
+          {{ form.archivo_gps }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Reporte de Consumo</label>
+          {{ form.archivo_reporte }}
+        </div>
+      </div>
+      <div class="mt-4 text-end">
+        <a href="{% url 'combustible:listado_cargas' %}" class="btn btn-secondary me-2">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar Carga</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

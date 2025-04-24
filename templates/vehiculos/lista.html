@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Listado de Vehículos{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="text-secondary">Listado de Vehículos</h2>
+  <a href="{% url 'vehiculos:registrar_vehiculo' %}" class="btn btn-success rounded-pill">
+    + Registrar Vehículo
+  </a>
+</div>
+
+<!-- Filtro por tipo de vehículo -->
+<div class="mb-4">
+  <div class="btn-group" role="group" aria-label="Filtros por tipo">
+    <a href="{% url 'vehiculos:lista_vehiculos' %}" class="btn btn-outline-secondary {% if not tipo_seleccionado %}active{% endif %}">Todos</a>
+    {% for t in tipos %}
+      <a href="?tipo={{ t }}" class="btn btn-outline-primary {% if tipo_seleccionado == t %}active{% endif %}">
+        {{ t }}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover align-middle shadow-sm bg-white rounded">
+    <thead class="table-light">
+      <tr>
+        <th>Placa</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Año</th>
+        <th>Tipo</th>
+        <th>Kilometraje</th>
+        <th>Asignado</th>
+        <th>Documentos</th>
+        <th>Ficha</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in vehiculos %}
+      <tr>
+        <td>{{ v.placa }}</td>
+        <td>{{ v.marca }}</td>
+        <td>{{ v.modelo }}</td>
+        <td>{{ v.año }}</td>
+        <td><span class="badge bg-primary">{{ v.tipo }}</span></td>
+        <td>{{ v.kilometraje_actual }}</td>
+        <td>{{ v.asignado_a|default:"-" }}</td>
+        <td>
+          {% if v.documento_seguro %}
+            <a href="{{ v.documento_seguro.url }}" target="_blank" class="btn btn-sm btn-outline-primary mb-1">Seguro</a><br>
+          {% endif %}
+          {% if v.documento_matricula %}
+            <a href="{{ v.documento_matricula.url }}" target="_blank" class="btn btn-sm btn-outline-primary mb-1">Matrícula</a><br>
+          {% endif %}
+          {% if v.licencia_operacion %}
+            <a href="{{ v.licencia_operacion.url }}" target="_blank" class="btn btn-sm btn-outline-primary">Licencia</a>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'vehiculos:detalle_vehiculo' v.id %}" class="btn btn-sm btn-outline-secondary">
+            Ver ficha
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9" class="text-center text-muted">No hay vehículos registrados.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
+
+

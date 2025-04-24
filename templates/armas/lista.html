@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Listado de Armas{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-secondary">Listado de Armas</h2>
+    <a href="{% url 'registrar_arma' %}" class="btn btn-success rounded-pill">Registrar Nueva Arma</a>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Código</th>
+        <th>Serie</th>
+        <th>Tipo</th>
+        <th>Calibre</th>
+        <th>Estado</th>
+        <th>Licencia</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for arma in armas %}
+      <tr>
+        <td>{{ arma.codigo }}</td>
+        <td>{{ arma.serie }}</td>
+        <td>{{ arma.tipo }}</td>
+        <td>{{ arma.calibre }}</td>
+        <td>{{ arma.estado }}</td>
+        <td>
+          {% if arma.licencia_digital %}
+          <a href="{{ arma.licencia_digital.url }}" target="_blank">Ver</a>
+          {% else %}No{% endif %}
+        </td>
+        <td>
+          <a href="{% url 'editar_arma' arma.id %}" class="btn btn-sm btn-warning">Editar</a>
+          <a href="{% url 'eliminar_arma' arma.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro que deseas eliminar esta arma?')">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center">No hay armas registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

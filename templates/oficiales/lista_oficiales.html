@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Listado de Oficiales{% endblock %}
+
+{% block content %}
+<div class="p-6">
+  <h1 class="text-2xl font-semibold text-gray-700 mb-6">Listado de Oficiales</h1>
+
+  <!-- Filtros -->
+  <form method="get" class="row mb-4">
+    <div class="col-md-3">
+      <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre o cédula">
+    </div>
+    <div class="col-md-3">
+      <select name="estado" class="form-select">
+        <option value="">-- Estado --</option>
+        <option value="Activo">Activo</option>
+        <option value="Suspendido">Suspendido</option>
+        <option value="Ausente">Ausente</option>
+        <option value="Licencia">Licencia</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="turno" class="form-select">
+        <option value="">-- Turno --</option>
+        <option value="Día">Día</option>
+        <option value="Noche">Noche</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+      <button type="submit" class="btn btn-outline-primary w-100">Filtrar</button>
+      <a href="{% url 'exportar_oficiales' %}" class="btn btn-outline-success">📥 Exportar</a>
+    </div>
+  </form>
+
+  <!-- Tabla -->
+  <div class="table-responsive shadow-sm rounded border">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Carnet</th>
+          <th>Nombre</th>
+          <th>Cédula</th>
+          <th>Estado</th>
+          <th>Ubicación</th>
+          <th>Zona</th>
+          <th>Turno</th>
+          <th>Tipo</th>
+          <th>Tipo de Oficial</th>
+          <th>Fecha de Ingreso</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for oficial in oficiales %}
+        <tr>
+          <td>{{ oficial.id_carnet }}</td>
+          <td>{{ oficial.nombre }}</td>
+          <td>{{ oficial.cedula }}</td>
+          <td>{{ oficial.estado }}</td>
+          <td>{{ oficial.ubicacion }}</td>
+          <td>{{ oficial.zona }}</td>
+          <td>{{ oficial.turno }}</td>
+          <td>{{ oficial.tipo }}</td>
+          <td>{{ oficial.tipo_oficial }}</td>
+          <td>{{ oficial.fecha_ingreso }}</td>
+          <td class="d-flex gap-2">
+            <a href="{% url 'ver_oficial' oficial.id %}" class="btn btn-sm btn-outline-info">👁️</a>
+            <a href="{% url 'editar_oficial' oficial.id %}" class="btn btn-sm btn-outline-warning">✏️</a>
+            <a href="{% url 'eliminar_oficial' oficial.id %}" class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('¿Estás seguro que deseas eliminar este oficial?')">🗑️</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="11" class="text-center text-muted">No hay oficiales registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-end mt-4">
+    <a href="{% url 'registrar_oficial' %}" class="btn btn-primary rounded-pill">Registrar Nuevo Oficial</a>
+  </div>
+</div>
+{% endblock %}
+
+

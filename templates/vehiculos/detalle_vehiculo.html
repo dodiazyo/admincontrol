@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ficha del Vehículo{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg p-4 rounded-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0">
+        {% if vehiculo.tipo == "Carro" %} 🚗
+        {% elif vehiculo.tipo == "Camioneta" %} 🚚
+        {% elif vehiculo.tipo == "Motor" %} 🏍️
+        {% elif vehiculo.tipo == "SUV" %} 🚙
+        {% elif vehiculo.tipo == "Camión" %} 🚛
+        {% else %} 🚘
+        {% endif %}
+        {{ vehiculo.tipo }} - {{ vehiculo.placa }}
+      </h3>
+      <a href="{% url 'vehiculos:registro_chequeo' vehiculo.id %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Chequeo Diario
+      </a>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Marca:</strong> {{ vehiculo.marca }}</li>
+          <li class="list-group-item"><strong>Modelo:</strong> {{ vehiculo.modelo }}</li>
+          <li class="list-group-item"><strong>Año:</strong> {{ vehiculo.año }}</li>
+          <li class="list-group-item"><strong>Rendimiento:</strong> {{ vehiculo.rendimiento_estandar }} km/gal</li>
+          <li class="list-group-item"><strong>Kilometraje Actual:</strong> {{ vehiculo.kilometraje_actual }} km</li>
+          <li class="list-group-item"><strong>Asignado a:</strong> {{ vehiculo.asignado_a|default:"N/A" }}</li>
+        </ul>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="fw-semibold mb-3">Documentos</h5>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Matrícula:</strong> 
+            {% if vehiculo.documento_matricula %}
+              <a href="{{ vehiculo.documento_matricula.url }}" target="_blank">Ver</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Seguro:</strong>
+            {% if vehiculo.documento_seguro %}
+              <a href="{{ vehiculo.documento_seguro.url }}" target="_blank">Ver</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Licencia de Operación:</strong>
+            {% if vehiculo.licencia_operacion %}
+              <a href="{{ vehiculo.licencia_operacion.url }}" target="_blank">Ver</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔍 Historial de Chequeos -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-light fw-bold">
+      📋 Chequeos Diarios
+    </div>
+    <div class="card-body table-responsive">
+      {% if chequeos %}
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Fecha</th>
+              <th>Supervisor</th>
+              <th>Kilometraje</th>
+              <th>Observaciones</th>
+              <th>Foto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in chequeos %}
+            <tr>
+              <td>{{ c.fecha }}</td>
+              <td>{{ c.supervisor }}</td>
+              <td>{{ c.kilometraje }} km</td>
+              <td>{{ c.observaciones|default:"-" }}</td>
+              <td>
+                {% if c.foto %}
+                  <a href="{{ c.foto.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Ver</a>
+                {% else %}
+                  Sin foto
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted">Este vehículo no tiene chequeos registrados.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ⛽ Historial de Cargas -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-light fw-bold">
+      ⛽ Cargas de Combustible
+    </div>
+    <div class="card-body table-responsive">
+      {% if cargas %}
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Fecha</th>
+              <th>Km Inicial</th>
+              <th>Km Final</th>
+              <th>Galones</th>
+              <th>Precio RD$</th>
+              <th>Archivo</th>
+              <th>Rendimiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for carga in cargas %}
+            <tr>
+              <td>{{ carga.fecha }}</td>
+              <td>{{ carga.km_inicial }}</td>
+              <td>{{ carga.km_final }}</td>
+              <td>{{ carga.galones }}</td>
+              <td>{{ carga.monto|floatformat:2 }}</td>
+              <td>
+                {% if carga.archivo %}
+                  <a href="{{ carga.archivo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Ver</a>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if carga.km_final and carga.km_inicial and carga.galones %}
+                  {{ ((carga.km_final|floatformat:2|floatval) - (carga.km_inicial|floatformat:2|floatval))|divisibleby:carga.galones|floatformat:2 }} km/gal
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted">No hay cargas registradas para este vehículo.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

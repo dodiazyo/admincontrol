@@ -1,0 +1,102 @@
+{% load nav_extras %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}AdminControl{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar {
+      height: 100vh;
+      background-color: #ffffff;
+      border-right: 1px solid #dee2e6;
+      padding: 1.5rem 1rem;
+      position: fixed;
+      width: 240px;
+    }
+    .sidebar a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      color: #343a40;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+    }
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: #e9ecef;
+      color: #0d6efd;
+    }
+    .sidebar i {
+      margin-right: 8px;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h4 class="text-center mb-4">🔐 AdminControl</h4>
+
+    <a href="{% url 'dashboard' %}" class="{% active_link '/' %}">
+      <i class="bi bi-house-door"></i> Inicio
+    </a>
+
+    <a href="{% url 'armas:lista_armas' %}" class="{% active_link '/armas/' %}">
+      <i class="bi bi-shield-lock"></i> Armas
+    </a>
+
+    <a href="{% url 'lista_oficiales' %}" class="{% active_link '/oficiales/' %}">
+      <i class="bi bi-person-badge"></i> Oficiales
+    </a>
+
+    <a href="{% url 'vehiculos:lista_vehiculos' %}" class="{% active_link '/vehiculos/' %}">
+      <i class="bi bi-truck"></i> Vehículos
+    </a>
+
+    <a href="#" class="{% active_link '/inventario/' %}">
+      <i class="bi bi-box-seam"></i> Inventario
+    </a>
+
+    <a href="#" class="{% active_link '/combustible/' %}">
+      <i class="bi bi-fuel-pump"></i> Combustible
+    </a>
+
+    <a href="#" class="{% active_link '/documentos/' %}">
+      <i class="bi bi-folder2-open"></i> Documentos
+    </a>
+
+    <a href="{% url 'logout' %}" class="text-danger mt-5">
+      <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+    </a>
+  </div>
+
+  <div class="main-content">
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

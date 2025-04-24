@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center fw-bold mb-5">Panel Principal</h1>
+
+  <div class="row g-4 justify-content-center">
+    <!-- Armas -->
+    <div class="col-md-4 d-flex">
+      <a href="{% url 'armas:lista_armas' %}" class="text-decoration-none text-dark w-100">
+        <div class="card-glass p-4 h-100 w-100">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="mb-1">Armas Registradas</h5>
+              <p class="fs-3 fw-semibold">{{ total_armas }}</p>
+            </div>
+            <i class="bi bi-shield-lock fs-1 text-primary"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Oficiales -->
+    <div class="col-md-4 d-flex">
+      <a href="{% url 'lista_oficiales' %}" class="text-decoration-none text-dark w-100">
+        <div class="card-glass p-4 h-100 w-100">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="mb-1">Oficiales Activos</h5>
+              <p class="fs-3 fw-semibold">{{ total_oficiales }}</p>
+            </div>
+            <i class="bi bi-person-badge fs-1 text-success"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Gestión de Combustible -->
+    <div class="col-md-4 d-flex">
+      <div class="card-glass p-4 h-100 w-100 d-flex flex-column justify-content-between {% if promedio_rendimiento and promedio_rendimiento < 6.0 %}border border-danger{% endif %}">
+        <a href="{% url 'combustible:listado_cargas' %}" class="text-decoration-none text-dark">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h5 class="mb-1">Gestión de Combustible</h5>
+              <p class="mb-1"><strong>Cargas:</strong> {{ total_combustible|default:"0" }}</p>
+              <p class="mb-1"><strong>Gasto:</strong> RD$ {{ total_gasto|default:"0.00"|floatformat:2 }}</p>
+              <p class="mb-0">
+                <strong>Rendimiento Prom.:</strong>
+                <span class="{% if promedio_rendimiento and promedio_rendimiento < 6.0 %}text-danger fw-bold{% endif %}">
+                  {{ promedio_rendimiento|default:"0.00"|floatformat:2 }} km/gal
+                </span>
+              </p>
+            </div>
+            <i class="bi bi-fuel-pump fs-1 text-danger"></i>
+          </div>
+        </a>
+
+        <div class="mt-3 d-flex gap-2">
+          <a href="{% url 'combustible:listado_cargas' %}" class="btn btn-outline-dark w-50">
+            <i class="bi bi-card-list"></i> Ver listado
+          </a>
+          <a href="{% url 'combustible:registrar_carga' %}" class="btn btn-outline-primary w-50">
+            <i class="bi bi-plus-circle"></i> Nueva carga
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

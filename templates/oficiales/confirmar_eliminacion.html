@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Confirmar Eliminación{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center mt-5">
+  <div class="card shadow p-4" style="max-width: 500px; width: 100%; border-radius: 20px;">
+    <h5 class="text-danger text-center">¿Estás seguro de que deseas eliminar este oficial?</h5>
+    <p class="text-center"><strong>{{ oficial.nombre }}</strong> ({{ oficial.id_carnet }})</p>
+    <form method="post" class="text-center">
+      {% csrf_token %}
+      <div class="d-flex justify-content-center gap-3">
+        <button type="submit" class="btn btn-danger rounded-pill">Sí, eliminar</button>
+        <a href="{% url 'lista_oficiales' %}" class="btn btn-secondary rounded-pill">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Detalles del Oficial{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow p-4 rounded-4">
+    <h4 class="mb-4 text-center text-secondary">Detalles del Oficial</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>ID Carnet:</strong> {{ oficial.id_carnet }}</li>
+      <li class="list-group-item"><strong>Nombre:</strong> {{ oficial.nombre }}</li>
+      <li class="list-group-item"><strong>Cédula:</strong> {{ oficial.cedula }}</li>
+      <li class="list-group-item"><strong>Estado:</strong> {{ oficial.estado }}</li>
+      <li class="list-group-item"><strong>Ubicación:</strong> {{ oficial.ubicacion }}</li>
+      <li class="list-group-item"><strong>Zona:</strong> {{ oficial.zona }}</li>
+      <li class="list-group-item"><strong>Tipo:</strong> {{ oficial.tipo }}</li>
+      <li class="list-group-item"><strong>Turno:</strong> {{ oficial.turno }}</li>
+      <li class="list-group-item"><strong>Fecha Ingreso:</strong> {{ oficial.fecha_ingreso }}</li>
+      <li class="list-group-item"><strong>Tipo de Oficial:</strong> {{ oficial.tipo_oficial }}</li>
+      {% if oficial.archivo_adjunto %}
+      <li class="list-group-item">
+        <strong>Archivo Adjunto:</strong> 
+        <a href="{{ oficial.archivo_adjunto.url }}" target="_blank" class="btn btn-sm btn-outline-info ms-2">Ver documento</a>
+      </li>
+      {% endif %}
+    </ul>
+    <div class="mt-4 text-center">
+      <a href="{% url 'lista_oficiales' %}" class="btn btn-secondary rounded-pill">Volver</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

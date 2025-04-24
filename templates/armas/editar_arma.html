@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Editar Arma{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="bi bi-pencil-square"></i> Editar Arma</h5>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.codigo.label_tag }} {{ form.codigo }}
+          </div>
+          <div class="col-md-6">
+            {{ form.serie.label_tag }} {{ form.serie }}
+          </div>
+          <div class="col-md-6">
+            {{ form.tipo.label_tag }} {{ form.tipo }}
+          </div>
+          <div class="col-md-6">
+            {{ form.marca.label_tag }} {{ form.marca }}
+          </div>
+          <div class="col-md-6">
+            {{ form.calibre.label_tag }} {{ form.calibre }}
+          </div>
+          <div class="col-md-6">
+            {{ form.estado.label_tag }} {{ form.estado }}
+          </div>
+          <div class="col-md-12">
+            {{ form.observaciones.label_tag }} {{ form.observaciones }}
+          </div>
+          <div class="col-md-12">
+            {{ form.licencia_digital.label_tag }} {{ form.licencia_digital }}
+          </div>
+          <hr class="my-3">
+          <div class="col-md-6">
+            {{ pass_form.password.label_tag }} {{ pass_form.password }}
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-between">
+          <a href="{% url 'armas:lista_armas' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+          </a>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Guardar cambios
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

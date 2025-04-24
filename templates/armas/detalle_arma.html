@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Detalle del Arma{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="bi bi-shield-lock"></i> Detalle del Arma</h5>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Código</dt>
+        <dd class="col-sm-9">{{ arma.codigo }}</dd>
+
+        <dt class="col-sm-3">Serie</dt>
+        <dd class="col-sm-9">{{ arma.serie }}</dd>
+
+        <dt class="col-sm-3">Tipo</dt>
+        <dd class="col-sm-9">{{ arma.tipo }}</dd>
+
+        <dt class="col-sm-3">Marca</dt>
+        <dd class="col-sm-9">{{ arma.marca }}</dd>
+
+        <dt class="col-sm-3">Calibre</dt>
+        <dd class="col-sm-9">{{ arma.calibre }}</dd>
+
+        <dt class="col-sm-3">Estado</dt>
+        <dd class="col-sm-9">{{ arma.estado }}</dd>
+
+        <dt class="col-sm-3">Observaciones</dt>
+        <dd class="col-sm-9">{{ arma.observaciones|default:"No especificadas" }}</dd>
+
+        <dt class="col-sm-3">Licencia Digital</dt>
+        <dd class="col-sm-9">
+          {% if arma.licencia_digital %}
+            <a href="{{ arma.licencia_digital.url }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+              <i class="bi bi-file-earmark-arrow-down"></i> Ver/Descargar
+            </a>
+          {% else %}
+            No disponible
+          {% endif %}
+        </dd>
+      </dl>
+      <div class="text-end">
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="confirm_view" value="1">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-eye"></i> Confirmar visualización</button>
+          <a href="{% url 'armas:lista_armas' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

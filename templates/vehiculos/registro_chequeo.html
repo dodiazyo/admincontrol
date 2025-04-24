@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Chequeo Diario{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card shadow p-4 w-100" style="max-width: 700px; border-radius: 1rem;">
+    <h4 class="text-center mb-4 text-secondary">Registrar Chequeo Diario</h4>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary rounded-pill">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

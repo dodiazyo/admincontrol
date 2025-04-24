@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Historial de Combustible{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold">Historial de Cargas de Combustible</h2>
+    <a href="{% url 'combustible:registrar_carga' %}" class="btn btn-outline-primary">
+      <i class="bi bi-plus-circle me-1"></i> Nueva Carga
+    </a>
+  </div>
+
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-hover align-middle bg-white">
+      <thead class="table-light">
+        <tr>
+          <th>Fecha</th>
+          <th>Vehículo</th>
+          <th>Supervisor</th>
+          <th>Km Recorridos</th>
+          <th>Galones</th>
+          <th>RD$ Total</th>
+          <th>Rendimiento</th>
+          <th>Archivo GPS</th>
+          <th>Reporte</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for carga in cargas %}
+        <tr class="{% if carga.rendimiento < 6.0 %}table-danger{% endif %}">
+          <td>{{ carga.fecha }}</td>
+          <td>{{ carga.vehiculo }}</td>
+          <td>{{ carga.supervisor }}</td>
+          <td>{{ carga.recorrido }} km</td>
+          <td>{{ carga.galones|floatformat:2 }}</td>
+          <td>RD$ {{ carga.total_pago|floatformat:2 }}</td>
+          <td>
+            <strong class="{% if carga.rendimiento < 6.0 %}text-danger{% else %}text-success{% endif %}">
+              {{ carga.rendimiento|floatformat:2 }} km/gal
+            </strong>
+          </td>
+          <td>
+            {% if carga.archivo_gps %}
+              <a href="{{ carga.archivo_gps.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Ver</a>
+            {% else %}
+              <span class="text-muted">-</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if carga.archivo_reporte %}
+              <a href="{{ carga.archivo_reporte.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Ver</a>
+            {% else %}
+              <span class="text-muted">-</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" class="text-center text-muted">No hay registros de combustible.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

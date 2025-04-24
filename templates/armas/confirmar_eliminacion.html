@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Arma{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-danger text-center p-4 rounded shadow">
+    <h4 class="mb-4">¿Estás seguro que deseas eliminar esta arma?</h4>
+
+    <p><strong>Código:</strong> {{ arma.codigo }}</p>
+    <p><strong>Serie:</strong> {{ arma.serie }}</p>
+    <p><strong>Tipo:</strong> {{ arma.tipo }}</p>
+    <p><strong>Calibre:</strong> {{ arma.calibre }}</p>
+    <p><strong>Estado:</strong> {{ arma.estado }}</p>
+
+    <form method="post" class="d-flex justify-content-center gap-3 mt-4">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Sí, eliminar
+      </button>
+      <a href="{% url 'armas:lista_armas' %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Cancelar
+      </a>
+    </form>
+  </div>
+</div>
+{% endblock %}
