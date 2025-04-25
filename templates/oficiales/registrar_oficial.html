@@ -1,24 +1,91 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Registrar Oficial{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-center">
-  <div class="card shadow p-4" style="max-width: 600px; width: 100%; border-radius: 20px;">
-    <h4 class="mb-4 text-center text-secondary">Registrar Nuevo Oficial</h4>
+<div class="container mt-5">
+  <div class="card shadow-lg p-5 rounded-4">
+    <h2 class="mb-4 text-center text-primary fw-bold">Registro de Oficial</h2>
 
-    <form method="post" enctype="multipart/form-data" novalidate>
+    <form method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
       {% csrf_token %}
-      {% for field in form %}
-        <div class="mb-3">
-          <label class="form-label fw-semibold">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}
-            <div class="text-danger small">{{ field.errors|striptags }}</div>
-          {% endif %}
-        </div>
-      {% endfor %}
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary rounded-pill">Guardar Oficial</button>
+      
+      <!-- Identificación -->
+      <div class="col-md-6">
+        <label class="form-label">ID de Carnet</label>
+        {{ form.id_carnet|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nombre</label>
+        {{ form.nombre|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Cédula</label>
+        {{ form.cedula|add_class:"form-control" }}
+      </div>
+
+      <!-- Información Laboral -->
+      <div class="col-md-6">
+        <label class="form-label">Estado</label>
+        {{ form.estado|add_class:"form-select" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Ubicación</label>
+        {{ form.ubicacion|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Zona</label>
+        {{ form.zona|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Tipo</label>
+        {{ form.tipo|add_class:"form-select" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Turno</label>
+        {{ form.turno|add_class:"form-select" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Fecha de Ingreso</label>
+        {{ form.fecha_ingreso|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Tipo de Oficial</label>
+        {{ form.tipo_oficial|add_class:"form-select" }}
+      </div>
+
+      <!-- Campos para supervisores -->
+      <div class="col-md-6">
+        <label class="form-label">Días libres tomados</label>
+        {{ form.dias_libres_tomados|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Días libres trabajados (DLT)</label>
+        {{ form.dias_libres_trabajados|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Turnos cubiertos</label>
+        {{ form.dias_cubiertos|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Días regulares</label>
+        {{ form.dias_regulares|add_class:"form-control" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Vehículo Asignado</label>
+        {{ form.vehiculo_asignado|add_class:"form-select" }}
+      </div>
+
+      <!-- Archivo -->
+      <div class="col-md-12">
+        <label class="form-label">Archivo Adjunto</label>
+        {{ form.archivo_adjunto|add_class:"form-control" }}
+      </div>
+
+      <!-- Botón de enviar -->
+      <div class="col-md-12 text-center mt-4">
+        <button type="submit" class="btn btn-primary px-4 py-2 fw-bold">Registrar Oficial</button>
       </div>
     </form>
   </div>
